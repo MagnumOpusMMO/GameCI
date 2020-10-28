@@ -1,0 +1,13 @@
+*-debug.log
+*-error.log
+/.nyc_output
+/dist
+/lib
+/tmp
+/temp
+/.idea
+/node_modules
+/.vs
+/.idea
+.editorconfig
+/gameci

@@ -1,0 +1,38 @@
+version: 2.1
+orbs:
+  node: circleci/node@2.0.2 # the node orb provides common node-related configuration
+jobs:
+  build:
+    docker:
+      - image: cimg/node:15.0.1
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run: npm install
+      - save_cache:
+          key: gameci
+          paths:
+            - ~/app
+  deploy:
+    docker:
+      - image: cimg/node:15.0.1
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          key: gameci
+      - run: sudo apt-get update
+      - run: sudo apt-get install p7zip-full
+      - run: npm run pack
+      - run: npm run deploy
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

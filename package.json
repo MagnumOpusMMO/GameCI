@@ -1,0 +1,76 @@
+{
+  "name": "GameCI",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Peter Chau",
+  "license": "MIT",
+  "bin": {
+    "gameci-cli": "./bin/run"
+  },
+  "bugs": "https://github.com/PeterChauYEG/GameCI/issues",
+  "scripts": {
+    "start": "./bin/run",
+    "pack": "oclif-dev pack",
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "eslint . --ext .ts --config .eslintrc",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "deploy": "oclif-dev publish",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md",
+    "lint": "eslint src",
+    "lint:fix": "yarn lint --fix"
+  },
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^3",
+    "cli-ux": "^5.5.0",
+    "dotenv": "^8.2.0",
+    "fs-extra": "^9.0.1",
+    "inquirer": "^7.3.3",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@types/fs-extra": "^9.0.1",
+    "@types/inquirer": "^7.3.1",
+    "@types/node": "^12",
+    "aws-sdk": "^2.779.0",
+    "eslint": "^5.13",
+    "eslint-config-oclif": "^3.1",
+    "eslint-config-oclif-typescript": "^0.1",
+    "globby": "^10",
+    "ts-node": "^8",
+    "typescript": "^3.3"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "homepage": "https://github.com/PeterChauYEG/GameCI",
+  "keywords": [
+    "oclif"
+  ],
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "GameCI",
+    "plugins": [
+      "@oclif/plugin-help"
+    ],
+    "macos": {
+      "identifier": "gg.magnumopus.cli"
+    },
+    "update": {
+      "s3": {
+        "bucket": "gameci.magnumopus.gg"
+      }
+    }
+  },
+  "repository": "PeterChauYEG/GameCI",
+  "types": "lib/index.d.ts"
+}
