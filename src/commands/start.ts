@@ -23,6 +23,7 @@ export default class Start extends Command {
     const command: string = start(buildType, environment, platform, map, port, this.pathBuilder)
 
     exec(command, (err, stdout, stderr) => {
+	  console.log(stderr)
       if (err) {
         this.log(JSON.stringify(err))
       } else {

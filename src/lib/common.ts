@@ -170,10 +170,10 @@ export class PathBuilder {
 
     switch (platform) {
       case PLATFORMS.WIN:
-        buildPath = `${enginePath}/Binaries/Mac/UE4Editor.app`
-        break
+		buildPath = `${enginePath}/Engine/Binaries/Win64/UE4Editor.exe`
+		break
       case PLATFORMS.MAC:
-        buildPath = `${enginePath}/Binaries/Win64/UE4Editor.exe`
+        buildPath = `${enginePath}/Binaries/Mac/UE4Editor.app`
         break
       default:
         break
