@@ -21,7 +21,7 @@ export default class Start extends Command {
     const port: string = await getPort()
 
     const command: string = start(buildType, environment, platform, map, port, this.pathBuilder)
-
+	console.log(command)
     exec(command, (err, stdout, stderr) => {
 	  console.log(stderr)
       if (err) {
