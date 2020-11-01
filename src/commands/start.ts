@@ -6,20 +6,27 @@ import {
   getEnvironmentType, getMap, getPort, PathBuilder,
 } from "../lib/common";
 import {start} from "../features/start";
+import {BUILD_TYPE} from "../constants";
 
 export default class Start extends Command {
   static description = 'Start your project'
   private pathBuilder: PathBuilder = new PathBuilder(this.config.configDir)
 
   async run() {
+    let map: string
+	let port: string
+
     await this.pathBuilder.init()
 
     const buildType: string = await getBuildType()
     const platform: string = await getPlatformType()
     const environment: string = await getEnvironmentType()
-    const map: string = await getMap()
-    const port: string = await getPort()
 
+	if (buildType !== BUILD_TYPE.CLIENT) {
+	  map = await getMap()
+      port = await getPort()
+	}
+    
     const command: string = start(buildType, environment, platform, map, port, this.pathBuilder)
 	console.log(command)
     exec(command, (err, stdout, stderr) => {
