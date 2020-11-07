@@ -12,3 +12,5 @@
 .editorconfig
 /gameci
 /bin
+GameCI-v*
+oclif.manifest.json
