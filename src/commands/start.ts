@@ -32,15 +32,17 @@ export default class Start extends Command {
       }
     }
 
-    const command: string = start(buildType, environment, platform, map, port, this.pathBuilder)
+    const commands: Array<string> = start(buildType, environment, platform, map, port, this.pathBuilder)
 
-    exec(command, (err, stdout, stderr) => {
-      if (err) {
-        this.log(JSON.stringify(stderr))
-        this.log(JSON.stringify(err))
-      } else {
-        this.log('STARTED')
-      }
+    commands.forEach(command => {
+      exec(command, (err, stdout, stderr) => {
+        if (err) {
+          this.log(JSON.stringify(stderr))
+          this.log(JSON.stringify(err))
+        } else {
+          this.log('STARTED')
+        }
+      })
     })
   }
 }
