@@ -10,9 +10,9 @@ jobs:
       - checkout
       - run: npm install
       - save_cache:
-          key: app-{{ checksum "package-lock.json" }}
+          key: v1-app-{{ checksum "package-lock.json" }}
           paths:
-            - ~/app/node_modules
+            - node_modules
   deploy:
     docker:
       - image: cimg/node:15.0.1
@@ -20,7 +20,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: app-{{ checksum "package-lock.json" }}
+          key: v1-app-{{ checksum "package-lock.json" }}
       - run: sudo apt-get update
       - run: sudo apt-get install p7zip-full
       - run: npm run pack
