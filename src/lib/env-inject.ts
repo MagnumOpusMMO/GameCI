@@ -1,17 +1,17 @@
 const fs = require('fs')
 
-function loadEnvConfig() {
-  const envConfig = fs.readFileSync(process.argv[2])
+function loadEnvConfig(environmentConfigPath) {
+  const envConfig = fs.readFileSync(environmentConfigPath)
   return JSON.parse(envConfig)
 }
 
-function loadProjectConfig() {
-  const projectConfig = fs.readFileSync(process.argv[3], 'utf-8')
+function loadProjectConfig(defaultGamePath) {
+  const projectConfig = fs.readFileSync(defaultGamePath, 'utf-8')
   return projectConfig
 }
 
-function saveProjectConfig(projectConfig) {
-  fs.writeFileSync(process.argv[3], projectConfig)
+function saveProjectConfig(projectConfig, defaultGamePath) {
+  fs.writeFileSync(defaultGamePath, projectConfig)
 }
 
 function replaceValue(key, envConfig, srcString) {
@@ -33,9 +33,12 @@ function envInject(envConfig, projectConfig) {
   return injectedProjectConfig
 }
 
-const envConfig = loadEnvConfig()
+const inject = function (environmentConfigPath, defaultGamePath) {
+  const envConfig = loadEnvConfig(environmentConfigPath)
+  const projectConfig = loadProjectConfig(defaultGamePath)
+  const injectedProjectConfig = envInject(envConfig, projectConfig)
 
-const projectConfig = loadProjectConfig()
-const injectedProjectConfig = envInject(envConfig, projectConfig)
+  saveProjectConfig(injectedProjectConfig, defaultGamePath)
+}
 
-saveProjectConfig(injectedProjectConfig)
+export default inject
