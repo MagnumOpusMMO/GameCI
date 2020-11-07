@@ -19,6 +19,7 @@ export default class Inject extends Command {
 
     exec(command, (err, stdout, stderr) => {
       if (err) {
+        this.log(JSON.stringify(stdout))
         this.log(JSON.stringify(err))
       } else {
         this.log('INJECTED')
