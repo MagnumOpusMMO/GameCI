@@ -13,8 +13,8 @@ export default class Start extends Command {
   private pathBuilder: PathBuilder = new PathBuilder(this.config.configDir)
 
   async run() {
-    let map: string
-	let port: string
+    let map: string = ''
+	let port: string = ''
 
     await this.pathBuilder.init()
 
