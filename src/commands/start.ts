@@ -32,7 +32,7 @@ export default class Start extends Command {
     exec(command, (err, stdout, stderr) => {
 	  console.log(stderr)
       if (err) {
-        this.log(JSON.stringify(stdout))
+        this.log(JSON.stringify(stderr))
         this.log(JSON.stringify(err))
       } else {
         this.log('STARTED')

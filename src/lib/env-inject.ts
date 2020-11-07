@@ -1,20 +1,19 @@
 const fs = require('fs')
 
-function loadEnvConfig(environmentConfigPath) {
-  const envConfig = fs.readFileSync(environmentConfigPath)
+const loadEnvConfig = (environmentConfigPath: string): object => {
+  const envConfig: string = fs.readFileSync(environmentConfigPath)
   return JSON.parse(envConfig)
 }
 
-function loadProjectConfig(defaultGamePath) {
-  const projectConfig = fs.readFileSync(defaultGamePath, 'utf-8')
-  return projectConfig
+const loadProjectConfig = (defaultGamePath: string): string => {
+  return fs.readFileSync(defaultGamePath, 'utf-8')
 }
 
-function saveProjectConfig(projectConfig, defaultGamePath) {
+const saveProjectConfig = (projectConfig: string, defaultGamePath: string): void => {
   fs.writeFileSync(defaultGamePath, projectConfig)
 }
 
-function replaceValue(key, envConfig, srcString) {
+const replaceValue = (key: string, envConfig: any, srcString: string): string => {
   const newValue = envConfig[key]
   const splitOnKey = srcString.split(`${key}=`)
   const splitAfterValue = splitOnKey[1].split('\n')
@@ -22,7 +21,7 @@ function replaceValue(key, envConfig, srcString) {
   return `${splitOnKey[0]}${key}=${newValue}\n${afterValue}`
 }
 
-function envInject(envConfig, projectConfig) {
+const envInject = (envConfig: object, projectConfig: string): string => {
   let injectedProjectConfig = projectConfig
 
   /* eslint-disable-next-line guard-for-in */
@@ -33,12 +32,12 @@ function envInject(envConfig, projectConfig) {
   return injectedProjectConfig
 }
 
-const inject = function (environmentConfigPath, defaultGamePath) {
-  const envConfig = loadEnvConfig(environmentConfigPath)
-  const projectConfig = loadProjectConfig(defaultGamePath)
-  const injectedProjectConfig = envInject(envConfig, projectConfig)
+const main = (environmentConfigPath: string, defaultGamePath: string): void => {
+  const envConfig: object = loadEnvConfig(environmentConfigPath)
+  const projectConfig: string = loadProjectConfig(defaultGamePath)
+  const injectedProjectConfig: string = envInject(envConfig, projectConfig)
 
   saveProjectConfig(injectedProjectConfig, defaultGamePath)
 }
 
-export default inject
+export default main
