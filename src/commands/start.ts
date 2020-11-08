@@ -14,8 +14,8 @@ export default class Start extends Command {
   private pathBuilder: PathBuilder = new PathBuilder(this.config.configDir)
 
   async run() {
-    let map: string? = undefined
-    let port: string? = undefined
+    let map: string | undefined
+    let port: string | undefined
     let buildType = ''
 
     await this.pathBuilder.init()
