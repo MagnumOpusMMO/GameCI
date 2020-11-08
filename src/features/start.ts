@@ -1,7 +1,7 @@
 import {BUILD_TYPE, ENVIRONMENT, PLATFORMS} from '../constants'
 import {PathBuilder} from '../lib/common'
 
-export const start = (buildType: string, environment: string, platform: string, map: string, port: string, pathBuilder: PathBuilder): Array<string> => {
+export const start = (buildType: string, environment: string, platform: string, map: string = 'Prelude', port: string = 7777, pathBuilder: PathBuilder): Array<string> => {
   const projectPath: string = pathBuilder.getProjectPath(platform)
   const unrealEditorPath: string = pathBuilder.getUnrealEditorPath(platform)
   const unarchivedBuildPath: string = pathBuilder.getArtifactUnarchivedBuildPath(platform)
@@ -24,7 +24,7 @@ export const start = (buildType: string, environment: string, platform: string, 
       break
     }
 
-    commands.push(`${tempCommand} -game`)
+    commands.push(`${tempCommand} -game -log`)
     commands.push(`${tempCommand} -server -nosteam -log -port=${port} ${map}?listen`)
 
     break
