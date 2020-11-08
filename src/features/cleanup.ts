@@ -16,11 +16,11 @@ export const cleanup = (environment: string, platform: string, pathBuilder: Path
 
     switch (platform) {
     case PLATFORMS.WIN:
-      command = `rmdir ${serverBuildPath} && del ${serverBuildPath}.zip && rmdir ${clientBuildPath} && del ${clientBuildPath}.zip`
+      command = `rmdir -Recurse -Force -Path ${serverBuildPath} ; rmdir -Recurse -Force -Path ${clientBuildPath}`
       break
 
     case PLATFORMS.MAC:
-      command = `rm -f ${serverBuildPath} && rm ${serverBuildPath}.zip && rm -f ${clientBuildPath} && rm ${clientBuildPath}.zip`
+      command = `rm -f ${serverBuildPath} && rm -f ${clientBuildPath}`
       break
 
     default:
@@ -29,13 +29,12 @@ export const cleanup = (environment: string, platform: string, pathBuilder: Path
 
     break
   case ENVIRONMENT.PRODUCTION:
-
     switch (platform) {
     case PLATFORMS.WIN:
-      command = `rmdir ${artifactsDirPath}/MagnumOpus && del ${artifactsBuildPath}`
+      command = `rmdir -Recurse -Force -Path ${artifactsDirPath}/MagnumOpus ; del ${artifactsBuildPath}`
       break
 
-    case PLATFORMS.MAC:
+    case PLATFORMS.MAC:	
       command = ''
       break
 
