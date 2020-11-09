@@ -4,13 +4,12 @@ import {PathBuilder} from "../lib/common";
 export const unarchive = (platform: string, pathBuilder: PathBuilder): string => {
   const artifactsBuildPath: string = pathBuilder.getArtifactsBuildPath(platform)
   const artifactsPath: string = pathBuilder.getArtifactsDirPath(platform)
-  const projectName: string = pathBuilder.getProjectName()
   
   let command = ''
 
   switch (platform) {
     case PLATFORMS.WIN:
-	  command = `powershell -command "Expand-Archive -Force ${artifactsBuildPath} ${artifactsPath}/${projectName}"`
+	  command = `powershell -command "Expand-Archive -Force ${artifactsBuildPath} ${artifactsPath}"`
       break
     case PLATFORMS.MAC:
       command = ''

@@ -43,7 +43,7 @@ export const start = (
       break
 
     case PLATFORMS.WIN:
-      tempCommand = unarchivedBuildPath
+      tempCommand = `Start-Process -FilePath ${unarchivedBuildPath}`
       break
 
     default:
@@ -56,7 +56,7 @@ export const start = (
       break
 
     case BUILD_TYPE.SERVER:
-      tempCommand = `${tempCommand} /Game/Maps/${map} -log`
+      tempCommand = `${tempCommand} -ArgumentList "/Game/Maps/${map} -log"`
       break
 
     default:

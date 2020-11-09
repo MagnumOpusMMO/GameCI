@@ -14,7 +14,7 @@ export const download = (platform: string, pathBuilder: PathBuilder): string => 
 
       break
     case PLATFORMS.WIN:
-      command = `powershell -command \"& { (New-Object Net.WebClient).DownloadFile(\'https://s3.amazonaws.com/${serverUrl}\', \'${artifactsBuildPath}') }`
+      command = `Invoke-WebRequest -Uri https://s3.amazonaws.com/${serverUrl}/windows/${projectName}.zip -OutFile ${artifactsBuildPath}`
       break
     default:
       break
