@@ -161,7 +161,7 @@ export class PathBuilder {
     const projectName: string = this.getProjectName()
     const archiveDirPath: string = this.getArtifactsDirPath(platform)
 
-    return `${archiveDirPath}/${projectName}.exe`
+    return `${archiveDirPath}/${projectName}/${projectName}.exe`
   }
 
   getUnrealEditorPath = (platform: string): string => {
