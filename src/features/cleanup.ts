@@ -16,7 +16,7 @@ export const cleanup = (environment: string, platform: string, pathBuilder: Path
 
     switch (platform) {
     case PLATFORMS.WIN:
-      command = `rmdir -Recurse -Force -Path ${serverBuildPath} ; rmdir -Recurse -Force -Path ${clientBuildPath}`
+      command = `rmdir -Recurse -Force -Path ${serverBuildPath} ; rmdir -Recurse -Force -Path ${clientBuildPath} ; rmdir -Recurse -Force -Path ${serverBuildPath}.zip ; rmdir -Recurse -Force -Path ${clientBuildPath}.zip`
       break
 
     case PLATFORMS.MAC:
