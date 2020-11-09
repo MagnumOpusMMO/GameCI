@@ -2,7 +2,7 @@ import {PLATFORMS} from "../constants";
 import {PathBuilder} from "../lib/common";
 
 export const download = (platform: string, pathBuilder: PathBuilder): string => {
-  const artifactsDirPath: string = pathBuilder.getArtifactsDirPath(platform)
+  const artifactsBuildPath: string = pathBuilder.getArtifactsBuildPath(platform)
   const serverUrl: string = pathBuilder.getServerUrl(platform)
   const projectName: string = pathBuilder.getProjectName()
 
@@ -14,7 +14,7 @@ export const download = (platform: string, pathBuilder: PathBuilder): string => 
 
       break
     case PLATFORMS.WIN:
-      command = `powershell -command \"& { (New-Object Net.WebClient).DownloadFile(\'https://s3.amazonaws.com/${serverUrl}\', \'${artifactsDirPath}/${projectName}.zip\') }`
+      command = `powershell -command \"& { (New-Object Net.WebClient).DownloadFile(\'https://s3.amazonaws.com/${serverUrl}\', \'${artifactsBuildPath}') }`
       break
     default:
       break
