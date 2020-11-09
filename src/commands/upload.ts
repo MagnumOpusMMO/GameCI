@@ -5,6 +5,7 @@ import {
   getPlatformType, PathBuilder,
 } from "../lib/common";
 import {upload} from "../features/upload";
+import { cli } from 'cli-ux';
 
 export default class Upload extends Command {
   static description = 'Upload your project'
@@ -18,13 +19,14 @@ export default class Upload extends Command {
 
     const command: string = upload(buildType, platform, this.pathBuilder)
 
+    cli.action.start('deploying')
     exec(command, (err, stdout, stderr) => {
-	  console.log(stderr)
       if (err) {
         this.log(JSON.stringify(stderr))
         this.log(JSON.stringify(err))
+        cli.action.stop('failed')
       } else {
-        this.log('UPLOADED')
+        cli.action.stop()
       }
     });
   }

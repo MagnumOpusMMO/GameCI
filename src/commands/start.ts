@@ -3,10 +3,11 @@ import {Command} from '@oclif/command'
 import {
   getBuildType,
   getPlatformType,
-  getEnvironmentType, getMap, getPort, PathBuilder,
+  getEnvironmentType, getMap, getPort, PathBuilder, getMapConfig, getMapConfigFromMap,
 } from '../lib/common'
 import {start} from '../features/start'
-import {BUILD_TYPE, ENVIRONMENT} from '../constants'
+import {ENVIRONMENT, MAP_CONFIGS} from '../constants'
+import { cli } from 'cli-ux'
 
 export default class Start extends Command {
   static description = 'Start your project'
@@ -14,36 +15,38 @@ export default class Start extends Command {
   private pathBuilder: PathBuilder = new PathBuilder(this.config.configDir)
 
   async run() {
-    let map: string | undefined
-    let port: string | undefined
-    let buildType = ''
+    try {
+      let buildType = ''
 
-    await this.pathBuilder.init()
+      await this.pathBuilder.init()
+  
+      const environment: string = await getEnvironmentType()
+      const platform: string = await getPlatformType()
+      const mapConfig: string = await getMapConfig()
 
-    const environment: string = await getEnvironmentType()
-    const platform: string = await getPlatformType()
-
-    if (environment !== ENVIRONMENT.DEVELOPMENT) {
-      buildType = await getBuildType()
-
-      if (buildType !== BUILD_TYPE.CLIENT) {
-        map = await getMap()
-        port = await getPort()
+      const { map, port }: { map: string, port: string } = await getMapConfigFromMap(mapConfig)
+  
+      if (environment !== ENVIRONMENT.DEVELOPMENT) {
+        buildType = await getBuildType()
       }
-    }
-
-    const commands: Array<string> = start(buildType, environment, platform, map, port, this.pathBuilder)
-
-    commands.forEach(command => {
-      exec(command, (err, stdout, stderr) => {
-        if (err) {
-          this.log(JSON.stringify(stderr))
-          this.log(JSON.stringify(err))
-        } else {
-          this.log('STARTED')
-        }
+  
+      const commands: Array<string> = start(buildType, environment, platform, map, port, this.pathBuilder)
+  
+      cli.action.start('starting game')
+      commands.forEach(command => {
+        exec(command, (err, stdout, stderr) => {
+          if (err) {
+            this.log(JSON.stringify(stderr))
+            this.log(JSON.stringify(err))
+          } else {
+            this.log('STARTED')
+          }
+          cli.action.stop()
+        })
       })
-    })
+    } catch (e) {
+      this.log(e)
+    }
   }
 }
 

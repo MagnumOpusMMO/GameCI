@@ -1,11 +1,27 @@
 import * as inquirer from "inquirer";
-import {BUILD_TYPE, DEPLOY, ENVIRONMENT, PLATFORMS} from "../constants";
+import {BUILD_TYPE, DEPLOY, ENVIRONMENT, MAPS, MAP_CONFIGS, PLATFORMS} from "../constants";
 import {loadFileAsJson} from "./fsHelpers";
 import cli from "cli-ux";
 import * as path from "path";
+import { string } from '@oclif/command/lib/flags';
 
 export const getConfigPath = (configDir: string): string => path.join(configDir, 'gameCI.json')
 export const getConfig = async (configPath: string): Promise<{}> => await loadFileAsJson(configPath)
+
+// mappers
+export const getMapConfigFromMap = async (map: string): Promise<{ map: string; port: string; }> => {
+  let mapConfig: { map: string, port: string} = { map: '', port: ''}
+
+  if (map === MAPS.CUSTOM) {
+    mapConfig.map = await getMap()
+    mapConfig.port = await getPort()
+  } else {
+    mapConfig.map = MAP_CONFIGS[map].map
+    mapConfig.port = MAP_CONFIGS[map].port
+  }
+
+  return mapConfig
+}
 
 // paths
 export class PathBuilder {
@@ -241,4 +257,19 @@ export const getPort = async (): Promise<string> => {
   const port: string= await cli.prompt(`What port should the server run on? ex: 7777`)
 
   return port
+}
+
+export const getMapConfig = async (): Promise<string> => {
+  const responses: { name: string } = await inquirer.prompt([{
+    name: 'name',
+    message: 'select a map configuration',
+    type: 'list',
+    choices: [
+      { name: MAPS.PRELUDE, ...MAP_CONFIGS.PRELUDE }, 
+      {name: MAPS.LITANY, ...MAP_CONFIGS.LITANY }, 
+      {name: MAPS.CUSTOM}
+    ],
+  }])
+
+  return responses.name
 }

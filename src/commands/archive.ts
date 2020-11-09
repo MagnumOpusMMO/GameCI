@@ -5,6 +5,7 @@ import {
   getPlatformType, PathBuilder,
 } from "../lib/common";
 import {archive} from "../features/archive";
+import { cli } from 'cli-ux';
 
 export default class Archive extends Command {
   static description = 'Archive your project'
@@ -18,13 +19,14 @@ export default class Archive extends Command {
 
     const command: string = archive(buildType, platform, this.pathBuilder)
 
+    cli.action.start('archiving')
     exec(command, (err, stdout, stderr) => {
-	console.log(stderr)
       if (err) {
         this.log(JSON.stringify(stderr))
         this.log(JSON.stringify(err))
+        cli.action.stop('failed')
       } else {
-        this.log('ARCHIVED')
+        cli.action.stop()
       }
     });
   }

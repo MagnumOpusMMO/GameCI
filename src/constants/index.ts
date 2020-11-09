@@ -19,4 +19,20 @@ export const PLATFORMS: { MAC: string, WIN: string } = {
   WIN: 'WIN',
 }
 
+export const MAPS: { LITANY: string, PRELUDE: string, CUSTOM: string } = {
+  PRELUDE: 'Prelude',
+  LITANY: 'Litany',
+  CUSTOM: 'custom'
+}
+
+export const PORTS: { 7777: string, 7778: string } = {
+  7777: '7777',
+  7778: '7778',
+}
+
+export const MAP_CONFIGS: { [key: string]: { map: string, port: string } } = {
+  [MAPS.PRELUDE]: { map: MAPS.PRELUDE, port: PORTS['7777'] },
+  [MAPS.LITANY]: { map: MAPS.LITANY, port: PORTS['7778'] }
+}
+
 export const configPath: string = 'configs/gameCI.json'

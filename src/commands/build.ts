@@ -5,6 +5,7 @@ import {
   getPlatformType, PathBuilder,
 } from "../lib/common";
 import {build} from "../features/build";
+import { cli } from 'cli-ux';
 
 export default class Build extends Command {
   static description = 'Build your project'
@@ -18,13 +19,14 @@ export default class Build extends Command {
 
     const command: string = build(buildType, platform, this.pathBuilder)
 
+    cli.action.start('building')
     exec(command, (err, stdout, stderr) => {
-	  console.log(stderr)
       if (err) {
         this.log(JSON.stringify(stderr))
         this.log(JSON.stringify(err))
+        cli.action.stop('failed')
       } else {
-        this.log('BUILT')
+        cli.action.stop()
       }
     });
   }

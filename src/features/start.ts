@@ -6,7 +6,7 @@ export const start = (
   environment: string,
   platform: string,
   map: string | undefined = 'Prelude',
-  port: string | undefined = '7777',
+  port: string,
   pathBuilder: PathBuilder
 ): Array<string> => {
   const projectPath: string = pathBuilder.getProjectPath(platform)
