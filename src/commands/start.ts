@@ -3,11 +3,11 @@ import {Command} from '@oclif/command'
 import {
   getBuildType,
   getPlatformType,
-  getEnvironmentType, getMap, getPort, PathBuilder, getMapConfig, getMapConfigFromMap,
+  getEnvironmentType, getMap, getPort, PathBuilder, getMapConfig, getMapConfigFromMap, getNumberOfClients,
 } from '../lib/common'
 import {start} from '../features/start'
 import {ENVIRONMENT, MAP_CONFIGS} from '../constants'
-import { cli } from 'cli-ux'
+import {cli} from 'cli-ux'
 
 export default class Start extends Command {
   static description = 'Start your project'
@@ -19,19 +19,21 @@ export default class Start extends Command {
       let buildType = ''
 
       await this.pathBuilder.init()
-  
+
       const environment: string = await getEnvironmentType()
       const platform: string = await getPlatformType()
       const mapConfig: string = await getMapConfig()
 
-      const { map, port }: { map: string, port: string } = await getMapConfigFromMap(mapConfig)
-  
+      const {map, port}: { map: string; port: string } = await getMapConfigFromMap(mapConfig)
+
       if (environment !== ENVIRONMENT.DEVELOPMENT) {
         buildType = await getBuildType()
       }
-  
-      const commands: Array<string> = start(buildType, environment, platform, map, port, this.pathBuilder)
-  
+
+      const nClients: string = await getNumberOfClients()
+
+      const commands: Array<string> = start(buildType, environment, platform, map, port, parseInt(nClients, 10), this.pathBuilder)
+
       cli.action.start('starting game')
       commands.forEach(command => {
         exec(command, (err, stdout, stderr) => {
@@ -44,8 +46,8 @@ export default class Start extends Command {
           cli.action.stop()
         })
       })
-    } catch (e) {
-      this.log(e)
+    } catch (error) {
+      this.log(error)
     }
   }
 }

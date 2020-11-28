@@ -1,16 +1,16 @@
-import * as inquirer from "inquirer";
-import {BUILD_TYPE, DEPLOY, ENVIRONMENT, MAPS, MAP_CONFIGS, PLATFORMS} from "../constants";
-import {loadFileAsJson} from "./fsHelpers";
-import cli from "cli-ux";
-import * as path from "path";
-import { string } from '@oclif/command/lib/flags';
+import * as inquirer from 'inquirer'
+import {BUILD_TYPE, DEPLOY, ENVIRONMENT, MAPS, MAP_CONFIGS, PLATFORMS} from '../constants'
+import {loadFileAsJson} from './fsHelpers'
+import cli from 'cli-ux'
+import * as path from 'path'
+import {string} from '@oclif/command/lib/flags'
 
 export const getConfigPath = (configDir: string): string => path.join(configDir, 'gameCI.json')
 export const getConfig = async (configPath: string): Promise<{}> => await loadFileAsJson(configPath)
 
 // mappers
-export const getMapConfigFromMap = async (map: string): Promise<{ map: string; port: string; }> => {
-  let mapConfig: { map: string, port: string} = { map: '', port: ''}
+export const getMapConfigFromMap = async (map: string): Promise<{ map: string; port: string }> => {
+  const mapConfig: { map: string; port: string} = {map: '', port: ''}
 
   if (map === MAPS.CUSTOM) {
     mapConfig.map = await getMap()
@@ -26,9 +26,10 @@ export const getMapConfigFromMap = async (map: string): Promise<{ map: string; p
 // paths
 export class PathBuilder {
   private readonly configPath: string
+
   private config: any = {}
 
-  constructor (configDir: string) {
+  constructor(configDir: string) {
     this.configPath = getConfigPath(configDir)
   }
 
@@ -42,14 +43,14 @@ export class PathBuilder {
     let artifactsBuildPath = ''
 
     switch (platform) {
-      case PLATFORMS.WIN:
-        artifactsBuildPath = `${artifactsDirPath}/${projectName}.zip`
-        break
-      case PLATFORMS.MAC:
-        artifactsBuildPath = ''
-        break
-      default:
-        break
+    case PLATFORMS.WIN:
+      artifactsBuildPath = `${artifactsDirPath}/${projectName}.zip`
+      break
+    case PLATFORMS.MAC:
+      artifactsBuildPath = ''
+      break
+    default:
+      break
     }
 
     return artifactsBuildPath
@@ -64,25 +65,25 @@ export class PathBuilder {
 
     let buildPath = ''
     switch (platform) {
-      case PLATFORMS.WIN:
-        buildPath = `${buildDirPath}/Windows`
-        break
-      case PLATFORMS.MAC:
-        buildPath = `${buildDirPath}/Mac`
-        break
-      default:
-        break
+    case PLATFORMS.WIN:
+      buildPath = `${buildDirPath}/Windows`
+      break
+    case PLATFORMS.MAC:
+      buildPath = `${buildDirPath}/Mac`
+      break
+    default:
+      break
     }
 
-	switch (buildType) {
-      case BUILD_TYPE.SERVER:
-        buildPath =  buildPath + 'Server'
-        break
-      case BUILD_TYPE.CLIENT:
-        buildPath =  buildPath + 'NoEditor'
-        break
-      default:
-        break
+    switch (buildType) {
+    case BUILD_TYPE.SERVER:
+      buildPath += 'Server'
+      break
+    case BUILD_TYPE.CLIENT:
+      buildPath += 'NoEditor'
+      break
+    default:
+      break
     }
 
     return buildPath
@@ -93,14 +94,14 @@ export class PathBuilder {
     let buildPath = ''
 
     switch (platform) {
-      case PLATFORMS.WIN:
-        buildPath = `${enginePath}/Engine/Build/BatchFiles/RunUAT`
-        break
-      case PLATFORMS.MAC:
-        buildPath = `${enginePath}/BatchFiles/RunUAT.sh`
-        break
-      default:
-        break
+    case PLATFORMS.WIN:
+      buildPath = `${enginePath}/Engine/Build/BatchFiles/RunUAT`
+      break
+    case PLATFORMS.MAC:
+      buildPath = `${enginePath}/BatchFiles/RunUAT.sh`
+      break
+    default:
+      break
     }
 
     return buildPath
@@ -114,14 +115,14 @@ export class PathBuilder {
     let clientUrl = ''
 
     switch (platform) {
-      case PLATFORMS.WIN:
-        clientUrl = `${clientDirUrl}/windows/${projectName}.zip`
-        break
-      case PLATFORMS.MAC:
-        clientUrl = `${clientDirUrl}/mac/${projectName}.zip`
-        break
-      default:
-        break
+    case PLATFORMS.WIN:
+      clientUrl = `${clientDirUrl}/windows/${projectName}.zip`
+      break
+    case PLATFORMS.MAC:
+      clientUrl = `${clientDirUrl}/mac/${projectName}.zip`
+      break
+    default:
+      break
     }
 
     return clientUrl
@@ -160,14 +161,14 @@ export class PathBuilder {
     let serverUrl = ''
 
     switch (platform) {
-      case PLATFORMS.WIN:
-        serverUrl = `${serverDirUrl}/windows/${projectName}.zip`
-        break
-      case PLATFORMS.MAC:
-        serverUrl = `${serverDirUrl}/mac/${projectName}.zip`
-        break
-      default:
-        break
+    case PLATFORMS.WIN:
+      serverUrl = `${serverDirUrl}/windows/${projectName}.zip`
+      break
+    case PLATFORMS.MAC:
+      serverUrl = `${serverDirUrl}/mac/${projectName}.zip`
+      break
+    default:
+      break
     }
 
     return serverUrl
@@ -185,14 +186,14 @@ export class PathBuilder {
     let buildPath = ''
 
     switch (platform) {
-      case PLATFORMS.WIN:
-		buildPath = `${enginePath}/Engine/Binaries/Win64/UE4Editor.exe`
-		break
-      case PLATFORMS.MAC:
-        buildPath = `${enginePath}/Binaries/Mac/UE4Editor.app`
-        break
-      default:
-        break
+    case PLATFORMS.WIN:
+      buildPath = `${enginePath}/Engine/Binaries/Win64/UE4Editor.exe`
+      break
+    case PLATFORMS.MAC:
+      buildPath = `${enginePath}/Binaries/Mac/UE4Editor.app`
+      break
+    default:
+      break
     }
 
     return buildPath
@@ -221,8 +222,8 @@ export const getDeployType = async (): Promise<string> => {
   return responses.platform
 }
 
-export const getEnvironmentType = async (includeS3: boolean = false): Promise<string> => {
-  let choices = [{name: ENVIRONMENT.DEVELOPMENT}, {name: ENVIRONMENT.PRODUCTION}]
+export const getEnvironmentType = async (includeS3 = false): Promise<string> => {
+  const choices = [{name: ENVIRONMENT.DEVELOPMENT}, {name: ENVIRONMENT.PRODUCTION}]
 
   if (includeS3) choices.push({name: ENVIRONMENT.S3})
 
@@ -230,14 +231,14 @@ export const getEnvironmentType = async (includeS3: boolean = false): Promise<st
     name: 'environment',
     message: 'select an environment',
     type: 'list',
-    choices
+    choices,
   }])
 
   return responses.environment
 }
 
 export const getMap = async (): Promise<string> => {
-  const map: string= await cli.prompt(`What map should the server run? ex: Litany`)
+  const map: string = await cli.prompt('What map should the server run? ex: Litany')
 
   return map
 }
@@ -254,7 +255,7 @@ export const getPlatformType = async (): Promise<string> => {
 }
 
 export const getPort = async (): Promise<string> => {
-  const port: string= await cli.prompt(`What port should the server run on? ex: 7777`)
+  const port: string = await cli.prompt('What port should the server run on? ex: 7777')
 
   return port
 }
@@ -265,11 +266,15 @@ export const getMapConfig = async (): Promise<string> => {
     message: 'select a map configuration',
     type: 'list',
     choices: [
-      { name: MAPS.PRELUDE, ...MAP_CONFIGS.PRELUDE }, 
-      {name: MAPS.LITANY, ...MAP_CONFIGS.LITANY }, 
-      {name: MAPS.CUSTOM}
+      {name: MAPS.PRELUDE, ...MAP_CONFIGS.PRELUDE},
+      {name: MAPS.LITANY, ...MAP_CONFIGS.LITANY},
+      {name: MAPS.CUSTOM},
     ],
   }])
 
   return responses.name
+}
+
+export const getNumberOfClients = async (): Promise<string> => {
+  return cli.prompt('How many clients?')
 }

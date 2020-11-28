@@ -7,6 +7,7 @@ export const start = (
   platform: string,
   map: string | undefined = 'Prelude',
   port: string,
+  nClients = 1,
   pathBuilder: PathBuilder
 ): Array<string> => {
   const projectPath: string = pathBuilder.getProjectPath(platform)
@@ -31,7 +32,9 @@ export const start = (
       break
     }
 
-    commands.push(`${tempCommand} -game -log`)
+    for (let i = 0; i < nClients; i++) {
+      commands.push(`${tempCommand} -game -log`)
+    }
     commands.push(`${tempCommand} -server -nosteam -log -port=${port} ${map}?listen`)
 
     break
