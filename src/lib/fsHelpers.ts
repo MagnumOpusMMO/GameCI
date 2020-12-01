@@ -1,7 +1,8 @@
+// eslint-disable-next-line unicorn/filename-case
 import * as fs from 'fs-extra'
 
 export const createFile = (path: string): void => {
-    fs.writeFileSync(path, JSON.stringify({}))
+  fs.writeFileSync(path, JSON.stringify({}))
 }
 
 export const loadFileAsJson = async (path: string): Promise<object> => {
@@ -9,8 +10,9 @@ export const loadFileAsJson = async (path: string): Promise<object> => {
 
   try {
     config = await fs.readJSON(path)
-  } catch (e) {
-    console.log(e)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
   }
 
   return config

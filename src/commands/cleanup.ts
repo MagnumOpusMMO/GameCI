@@ -1,13 +1,14 @@
-import { exec } from 'child_process'
+import {exec} from 'child_process'
 import {Command} from '@oclif/command'
 import {
   getEnvironmentType,
   getPlatformType, PathBuilder,
-} from "../lib/common";
-import {cleanup} from "../features/cleanup";
+} from '../lib/common'
+import {cleanup} from '../features/cleanup'
 
 export default class Cleanup extends Command {
   static description = 'Clean up your assets'
+
   private pathBuilder: PathBuilder = new PathBuilder(this.config.configDir)
 
   async run() {
@@ -19,14 +20,13 @@ export default class Cleanup extends Command {
     const command: string = cleanup(environment, platform, this.pathBuilder)
 
     exec(command, (err, stdout, stderr) => {
-		console.log(stderr)
       if (err) {
         this.log(JSON.stringify(stderr))
         this.log(JSON.stringify(err))
       } else {
         this.log('CLEANED UP')
       }
-    });
+    })
   }
 }
 

@@ -1,14 +1,15 @@
-import { exec } from 'child_process'
+import {exec} from 'child_process'
 import {Command} from '@oclif/command'
 import {
   getBuildType,
   getPlatformType, PathBuilder,
-} from "../lib/common";
-import {archive} from "../features/archive";
-import { cli } from 'cli-ux';
+} from '../lib/common'
+import {archive} from '../features/archive'
+import {cli} from 'cli-ux'
 
 export default class Archive extends Command {
   static description = 'Archive your project'
+
   private pathBuilder: PathBuilder = new PathBuilder(this.config.configDir)
 
   async run() {
@@ -28,7 +29,7 @@ export default class Archive extends Command {
       } else {
         cli.action.stop()
       }
-    });
+    })
   }
 }
 

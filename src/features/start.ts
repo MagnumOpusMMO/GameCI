@@ -9,6 +9,7 @@ export const start = (
   port: string,
   nClients = 1,
   pathBuilder: PathBuilder
+  // eslint-disable-next-line max-params
 ): Array<string> => {
   const projectPath: string = pathBuilder.getProjectPath(platform)
   const unrealEditorPath: string = pathBuilder.getUnrealEditorPath(platform)

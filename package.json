@@ -17,7 +17,7 @@
     "deploy": "oclif-dev publish",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md",
-    "lint": "eslint src",
+    "lint": "eslint . --ext .js,.ts",
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {

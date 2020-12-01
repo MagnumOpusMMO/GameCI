@@ -34,7 +34,7 @@ export const cleanup = (environment: string, platform: string, pathBuilder: Path
       command = `rmdir -Recurse -Force -Path ${artifactsDirPath}/MagnumOpus ; del ${artifactsBuildPath}`
       break
 
-    case PLATFORMS.MAC:	
+    case PLATFORMS.MAC:
       command = ''
       break
 

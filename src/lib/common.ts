@@ -3,25 +3,9 @@ import {BUILD_TYPE, DEPLOY, ENVIRONMENT, MAPS, MAP_CONFIGS, PLATFORMS} from '../
 import {loadFileAsJson} from './fsHelpers'
 import cli from 'cli-ux'
 import * as path from 'path'
-import {string} from '@oclif/command/lib/flags'
 
 export const getConfigPath = (configDir: string): string => path.join(configDir, 'gameCI.json')
-export const getConfig = async (configPath: string): Promise<{}> => await loadFileAsJson(configPath)
-
-// mappers
-export const getMapConfigFromMap = async (map: string): Promise<{ map: string; port: string }> => {
-  const mapConfig: { map: string; port: string} = {map: '', port: ''}
-
-  if (map === MAPS.CUSTOM) {
-    mapConfig.map = await getMap()
-    mapConfig.port = await getPort()
-  } else {
-    mapConfig.map = MAP_CONFIGS[map].map
-    mapConfig.port = MAP_CONFIGS[map].port
-  }
-
-  return mapConfig
-}
+export const getConfig = async (configPath: string): Promise<{}> => loadFileAsJson(configPath)
 
 // paths
 export class PathBuilder {
@@ -277,4 +261,19 @@ export const getMapConfig = async (): Promise<string> => {
 
 export const getNumberOfClients = async (): Promise<string> => {
   return cli.prompt('How many clients?')
+}
+
+// mappers
+export const getMapConfigFromMap = async (map: string): Promise<{ map: string; port: string }> => {
+  const mapConfig: { map: string; port: string} = {map: '', port: ''}
+
+  if (map === MAPS.CUSTOM) {
+    mapConfig.map = await getMap()
+    mapConfig.port = await getPort()
+  } else {
+    mapConfig.map = MAP_CONFIGS[map].map
+    mapConfig.port = MAP_CONFIGS[map].port
+  }
+
+  return mapConfig
 }
