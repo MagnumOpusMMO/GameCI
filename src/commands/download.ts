@@ -1,12 +1,13 @@
-import { exec } from 'child_process'
+import {exec} from 'child_process'
 import {Command} from '@oclif/command'
 import {
   getPlatformType, PathBuilder,
-} from "../lib/common";
-import {download} from "../features/download";
+} from '../lib/common'
+import {download} from '../features/download'
 
 export default class Download extends Command {
   static description = 'Download your project'
+
   private pathBuilder: PathBuilder = new PathBuilder(this.config.configDir)
 
   async run() {
@@ -17,14 +18,13 @@ export default class Download extends Command {
     const command: string = download(platformType, this.pathBuilder)
 
     exec(command, (err, stdout, stderr) => {
-	  console.log(stderr)
       if (err) {
         this.log(JSON.stringify(stderr))
         this.log(JSON.stringify(err))
       } else {
         this.log('DOWNLOADED')
       }
-    });
+    })
   }
 }
 

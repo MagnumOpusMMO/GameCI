@@ -3,10 +3,10 @@ import {Command} from '@oclif/command'
 import {
   getBuildType,
   getPlatformType,
-  getEnvironmentType, getMap, getPort, PathBuilder, getMapConfig, getMapConfigFromMap, getNumberOfClients,
+  getEnvironmentType, PathBuilder, getMapConfig, getMapConfigFromMap, getNumberOfClients,
 } from '../lib/common'
 import {start} from '../features/start'
-import {ENVIRONMENT, MAP_CONFIGS} from '../constants'
+import {ENVIRONMENT} from '../constants'
 import {cli} from 'cli-ux'
 
 export default class Start extends Command {
@@ -32,7 +32,15 @@ export default class Start extends Command {
 
       const nClients: string = await getNumberOfClients()
 
-      const commands: Array<string> = start(buildType, environment, platform, map, port, parseInt(nClients, 10), this.pathBuilder)
+      const commands: Array<string> = start(
+        buildType,
+        environment,
+        platform,
+        map,
+        port,
+        parseInt(nClients, 10),
+        this.pathBuilder
+      )
 
       cli.action.start('starting game')
       commands.forEach(command => {

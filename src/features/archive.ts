@@ -1,5 +1,5 @@
-import { PathBuilder } from "../lib/common";
-import {PLATFORMS} from "../constants";
+import {PathBuilder} from '../lib/common'
+import {PLATFORMS} from '../constants'
 
 export const archive = (buildType: string, platform: string, pathBuilder: PathBuilder): string => {
   const buildPath: string = pathBuilder.getBuildPath(buildType, platform)
@@ -10,14 +10,14 @@ export const archive = (buildType: string, platform: string, pathBuilder: PathBu
   let command = ''
 
   switch (platform) {
-    case PLATFORMS.WIN:
-      command = `ren "${buildPath}" ${projectName} && tar.exe -acf ${renamedBuildPath}.zip -C ${buildDir} ${projectName}`
-      break
-    case PLATFORMS.MAC:
-      command = ''
-      break
-    default:
-      break
+  case PLATFORMS.WIN:
+    command = `ren "${buildPath}" ${projectName} && tar.exe -acf ${renamedBuildPath}.zip -C ${buildDir} ${projectName}`
+    break
+  case PLATFORMS.MAC:
+    command = ''
+    break
+  default:
+    break
   }
 
   return command
