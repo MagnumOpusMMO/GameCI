@@ -35,7 +35,7 @@ export const start = (
     for (let i = 0; i < nClients; i++) {
       commands.push(`${tempCommand} -game -log`)
     }
-    commands.push(`${tempCommand} -server -nosteam -log -port=${port} ${map}?listen`)
+    commands.push(`${tempCommand} -server -nosteam -log -port=${port} ${map}`)
 
     break
 
